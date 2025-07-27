@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { appState, subscribe } from "../../../state";
+import { subscribe } from "../../../state";
 import type { JobApplication } from "../../../types";
 import "./jobApplicationListTable.css";
 
