@@ -2,6 +2,8 @@ import type { JobApplication } from "./types";
 
 // set all the Local Storage key
 const LOCAL_STORAGE_KEY = "job_applications";
+// const AUTH_TOKEN = "auth_token"
+
 
 //method for store in local storage
 export function storeDataInLocalStorage(data: JobApplication[]) {
@@ -13,3 +15,5 @@ export function fetchDataFromLocalStorage() {
   const data = localStorage.getItem(LOCAL_STORAGE_KEY);
   return data ? JSON.parse(data) : [];
 }
+
+

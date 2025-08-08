@@ -3,6 +3,7 @@ import type { JobApplication } from "../../../types";
 import { appState } from "../../../state";
 import { storeDataInLocalStorage } from "../../../storage";
 import "./JobApplicationForm.css";
+import { createNewJobApplication } from "../../../services/jobApplicationApis";
 
 export const JobApplicationForm: React.FC = () => {
   const [form, setForm] = useState({
@@ -24,7 +25,7 @@ export const JobApplicationForm: React.FC = () => {
     setForm((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const errors: string[] = [];
@@ -44,7 +45,7 @@ export const JobApplicationForm: React.FC = () => {
     }
 
     const newApplication: JobApplication = {
-      id: crypto.randomUUID(),
+      // id: crypto.randomUUID(),
       company: form.company.trim(),
       role: form.role.trim(),
       jobType: form.jobType,
@@ -54,19 +55,30 @@ export const JobApplicationForm: React.FC = () => {
       note: form.note.trim(),
     };
 
-    appState.jobApplications = [...appState.jobApplications, newApplication];
-    storeDataInLocalStorage(appState.jobApplications);
+    await createNewJobApplication(newApplication)
+      .then((response) => {
+        if (response.data) {
+          appState.jobApplications = [
+            ...appState.jobApplications,
+            { ...newApplication, _id: response.data._id },
+          ];
+          storeDataInLocalStorage(appState.jobApplications);
 
-    // Reset form
-    setForm({
-      company: "",
-      role: "",
-      jobType: "Onsite",
-      location: "",
-      date: "",
-      status: "Applied",
-      note: "",
-    });
+          // Reset form
+          setForm({
+            company: "",
+            role: "",
+            jobType: "Onsite",
+            location: "",
+            date: "",
+            status: "Applied",
+            note: "",
+          });
+        }
+      })
+      .catch((error: Error) => {
+        console.log(error);
+      });
   };
 
   return (

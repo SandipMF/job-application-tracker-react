@@ -3,6 +3,7 @@ import type { JobApplication } from "../../../types";
 import "./EditJobApplication.css";
 import { appState } from "../../../state";
 import { storeDataInLocalStorage } from "../../../storage";
+import { editJobApplication } from "../../../services/jobApplicationApis";
 
 type EditJobApplicationProps = {
   application: JobApplication;
@@ -17,7 +18,7 @@ export const EditJobApplication: React.FC<EditJobApplicationProps> = ({
   const [editedApplication, setEditedApplication] =
     useState<JobApplication>(application);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const errors: string[] = [];
@@ -53,12 +54,20 @@ export const EditJobApplication: React.FC<EditJobApplicationProps> = ({
       note: editedApplication.note.trim(),
     };
 
-    const updatedApplicationData = appState.jobApplications;
-    updatedApplicationData[index] = newEditedApplication;
-    appState.jobApplications = updatedApplicationData;
-    storeDataInLocalStorage(appState.jobApplications);
+    await editJobApplication(application._id!, newEditedApplication)
+      .then((response) => {
+        if (response.data) {
+          const updatedApplicationData = appState.jobApplications;
+          updatedApplicationData[index] = newEditedApplication;
+          appState.jobApplications = updatedApplicationData;
+          storeDataInLocalStorage(appState.jobApplications);
 
-    onClose();
+          onClose();
+        }
+      })
+      .catch((error: Error) => {
+        console.log(error);
+      });
   };
 
   return (

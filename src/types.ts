@@ -1,6 +1,6 @@
-//Create the model for JobApplication 
+//Create the model for JobApplication
 export interface JobApplication {
-  id: string;
+  _id?: string;
   company: string;
   role: string;
   jobType: string;
