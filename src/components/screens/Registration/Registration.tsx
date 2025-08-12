@@ -1,21 +1,43 @@
 import { useState } from "react";
 import "./Registration.css";
+import { registerNewUser } from "../../../services/authApis";
 
 const Registration = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = async () => {
+  const handleRegister = async (e: React.FormEvent) => {
     try {
+      e.preventDefault();
       console.log(name, email, password);
+      const errors: string[] = [];
+      if (!name) errors.push("Please enter name.");
+      if (!email) errors.push("Please enter email id.");
+      if (!password) errors.push("Please enter password.");
+
+      if (errors.length > 0) {
+        alert(
+          "Please check the following validation errors:\n" + errors.join("\n")
+        );
+        return;
+      }
       //   await axios.post(
       //     `${process.env.REACT_APP_API_BASE_URL}/auth/register`,
       //     { name, email, password }
       //   );
       //   alert("Registration successful! Please login.");
 
-      window.location.href = "/login";
+      await registerNewUser({ name: name, email: email, password: password })
+        .then((response) => {
+          if (response.data) {
+            alert("New user sussfully register.");
+            window.location.href = "/login";
+          }
+        })
+        .catch((error: Error) => {
+          alert(error.message);
+        });
     } catch (err) {
       console.error(err);
       alert("Registration failed");

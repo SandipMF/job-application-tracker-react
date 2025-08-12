@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import type { JobApplication } from "../../../types";
+import type { JobApplication } from "../../../models"; 
 import { appState, subscribe } from "../../../state";
 import "./JobApplicationSummary.css";
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { subscribe } from "../../../state";
-import type { JobApplication } from "../../../types";
+import type { JobApplication } from "../../../models"; 
 import "./jobApplicationListTable.css";
 
 interface Props {

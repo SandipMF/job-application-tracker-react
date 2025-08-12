@@ -1,5 +1,5 @@
 import { fetchDataFromLocalStorage } from "./storage";
-import type { JobApplication } from "./types";
+import type { JobApplication } from "./models"; 
 
 // set the type for state object
 type State = {

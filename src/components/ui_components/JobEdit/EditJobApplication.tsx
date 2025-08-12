@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import type { JobApplication } from "../../../types";
+import type { JobApplication } from "../../../models"; 
 import "./EditJobApplication.css";
 import { appState } from "../../../state";
 import { storeDataInLocalStorage } from "../../../storage";

@@ -1,15 +1,19 @@
 import type React from "react";
 import { useEffect, useState } from "react";
-import type { JobApplication } from "../../../types";
+import type { JobApplication } from "../../../models";
 import {
   deleteJobApplication,
   getAllJobApplications,
 } from "../../../services/jobApplicationApis";
-import { JobApplicationSummary } from "../jobSummary/JobApplicationSummary";
-import { JobApplicationForm } from "../JobCreate/JobApplicationForm";
-import { JobApplicationListTable } from "../JobList/jobApplicationListTable";
+import { JobApplicationSummary } from "../../ui_components/jobSummary/JobApplicationSummary";
+import { JobApplicationForm } from "../../ui_components/JobCreate/JobApplicationForm";
+import { JobApplicationListTable } from "../../ui_components/JobList/jobApplicationListTable";
 import { appState } from "../../../state";
-import { EditJobApplication } from "../JobEdit/EditJobApplication";
+import { EditJobApplication } from "../../ui_components/JobEdit/EditJobApplication";
+import {
+  LOCAL_STORAGE_KEY_JOB_LIST,
+  LOCAL_STORAGE_KEY_TOKEN,
+} from "../../../storage";
 //note:  Page=>page
 const Dashboard: React.FC = () => {
   // State variable for handle edit form UI
@@ -28,7 +32,9 @@ const Dashboard: React.FC = () => {
 
           <button
             onClick={() => {
-              console.log("Click on login button");
+              localStorage.removeItem(LOCAL_STORAGE_KEY_TOKEN);
+              localStorage.removeItem(LOCAL_STORAGE_KEY_JOB_LIST);
+              window.location.href = "/";
             }}
           >
             LogOut

@@ -24,6 +24,18 @@ nav div {
   text-align: center;
 }
 
+nav div button{
+  position: absolute;
+  right: 0px;
+  margin: 20px;
+  height: 40px;
+  width: 100px;
+  border-radius: 5px;
+  color: red;
+  font-size: medium;
+  font-weight: bold;
+}
+
 .form-with-table {
   display: flex;
   /* width: 98%; */
